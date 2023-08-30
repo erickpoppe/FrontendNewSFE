@@ -40,15 +40,15 @@ export default function ShippingAddressPage() {
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <h1 className="mb-4 text-xl">Shipping Address</h1>
+        <h1 className="mb-4 text-xl">Datos del Cliente</h1>
         <div className="mb-4">
-          <label htmlFor="fullName">Full Name</label>
+          <label htmlFor="fullName">Nombre o Razón Social</label>
           <input
             className="w-full"
             id="fullName"
             autoFocus
             {...register('fullName', {
-              required: 'Please enter full name',
+              required: 'Por favor escriba su nombre',
             })}
           />
           {errors.fullName && (
@@ -56,15 +56,16 @@ export default function ShippingAddressPage() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address">Email</label>
           <input
             className="w-full"
             id="address"
+            type="email"
             {...register('address', {
-              required: 'Please enter address',
+              required: 'Por favor escriba su correo electrónico',
               minLength: {
                 value: 3,
-                message: 'Address is more than 2 chars',
+                message: 'Debe contener más de dos caracteres',
               },
             })}
           />
@@ -73,12 +74,11 @@ export default function ShippingAddressPage() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="city">City</label>
+          <label htmlFor="city">Complemento</label>
           <input
             className="w-full"
             id="city"
             {...register('city', {
-              required: 'Please enter city',
             })}
           />
           {errors.city && (
@@ -86,33 +86,31 @@ export default function ShippingAddressPage() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="postalCode">Postal Code</label>
+          <label htmlFor="postalCode">Numero de Documento</label>
           <input
             className="w-full"
             id="postalCode"
+            type="number"
             {...register('postalCode', {
-              required: 'Please enter postal code',
+              required: 'Por favor escriba el numero de documento.',
             })}
           />
-          {errors.postalCode && (
-            <div className="text-red-500 ">{errors.postalCode.message}</div>
-          )}
         </div>
         <div className="mb-4">
-          <label htmlFor="country">Country</label>
+          <label htmlFor="country">Tipo de Documento</label>
           <input
-            className="w-full"
-            id="country"
-            {...register('country', {
-              required: 'Please enter country',
-            })}
+              className="w-full"
+              id="country"
+              {...register('country', {
+                required: 'Escriba el tipo de documento',
+              })}
           />
           {errors.country && (
-            <div className="text-red-500 ">{errors.country.message}</div>
+              <div className="text-red-500 ">{errors.country.message}</div>
           )}
         </div>
         <div className="mb-4 flex justify-between">
-          <button className="primary-button">Enviar</button>
+          <button className="primary-button">Registrar</button>
         </div>
       </form>
     </div>

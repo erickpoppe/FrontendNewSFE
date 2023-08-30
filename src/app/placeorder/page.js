@@ -39,7 +39,7 @@ export default function PlaceOrderScreen() {
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
             <div className="card  p-5">
-              <h2 className="mb-2 text-lg">Shipping Address</h2>
+              <h2 className="mb-2 text-lg">Datos del cliente</h2>
               <div>
                 {shippingAddress.fullName}, {shippingAddress.address},{' '}
                 {shippingAddress.city}, {shippingAddress.postalCode},{' '}
@@ -52,22 +52,22 @@ export default function PlaceOrderScreen() {
               </div>
             </div>
             <div className="card  p-5">
-              <h2 className="mb-2 text-lg">Payment Method</h2>
+              <h2 className="mb-2 text-lg">Facturación</h2>
               <div>{paymentMethod}</div>
               <div>
                 <Link className="default-button inline-block" href="/payment">
-                  Edit
+                  Editar
                 </Link>
               </div>
             </div>
             <div className="card overflow-x-auto p-5">
-              <h2 className="mb-2 text-lg">Order Items</h2>
+              <h2 className="mb-2 text-lg">Artículos a facturar</h2>
               <table className="min-w-full">
                 <thead className="border-b">
                   <tr>
                     <th className="px-5 text-left">Item</th>
-                    <th className="    p-5 text-right">Quantity</th>
-                    <th className="  p-5 text-right">Price</th>
+                    <th className="    p-5 text-right">Cantidad</th>
+                    <th className="  p-5 text-right">Precio</th>
                     <th className="p-5 text-right">Subtotal</th>
                   </tr>
                 </thead>
@@ -93,14 +93,14 @@ export default function PlaceOrderScreen() {
               </table>
               <div>
                 <Link className="default-button inline-block" href="/cart">
-                  Edit
+                  Editar
                 </Link>
               </div>
             </div>
           </div>
           <div>
             <div className="card  p-5">
-              <h2 className="mb-2 text-lg">Order Summary</h2>
+              <h2 className="mb-2 text-lg">Sumario de Factura</h2>
               <ul>
                 <li>
                   <div className="mb-2 flex justify-between">
@@ -108,30 +108,19 @@ export default function PlaceOrderScreen() {
                     <div>${itemsPrice}</div>
                   </div>
                 </li>
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Tax</div>
-                    <div>${taxPrice}</div>
-                  </div>
-                </li>
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Shipping</div>
-                    <div>${shippingPrice}</div>
-                  </div>
-                </li>
+
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Total</div>
-                    <div>${totalPrice}</div>
+                    <div>${itemsPrice}</div>
                   </div>
                 </li>
                 <li>
                   <button
-                    onClick={() => alert('Not implemented')}
+                    onClick={() => alert('En desarrollo...')}
                     className="primary-button w-full"
                   >
-                    Place Order
+                    Enviar Factura
                   </button>
                 </li>
               </ul>

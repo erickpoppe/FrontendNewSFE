@@ -28,7 +28,7 @@ export default function ShippingAddressPage() {
   const submitHandler = ({ paymentMethod }) => {
     dispatch(savePaymentMethod(paymentMethod))
 
-    router.push('/placeorder')
+    router.push('/')
   }
   return (
     <div>
@@ -37,8 +37,8 @@ export default function ShippingAddressPage() {
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <h1 className="mb-4 text-xl">Payment Method</h1>
-        {['PayPal', 'Stripe', 'CashOnDelivery'].map((payment) => (
+        <h1 className="mb-4 text-xl">Método de pago</h1>
+        {['Transferencia Bancaria', 'Tarjeta', 'Efectivo'].map((payment) => (
           <div key={payment} className="mb-4">
             <input
               name="paymentMethod"
@@ -47,7 +47,7 @@ export default function ShippingAddressPage() {
               type="radio"
               value={payment}
               {...register('paymentMethod', {
-                required: 'Please select payment method',
+                required: 'Por favor seleccione un método de pago',
               })}
             />
 
@@ -60,7 +60,7 @@ export default function ShippingAddressPage() {
           <div className="text-red-500 ">{errors.paymentMethod.message}</div>
         )}
         <div className="mb-4 flex justify-between">
-          <button className="primary-button">Next</button>
+          <button className="primary-button">Registrar</button>
         </div>
       </form>
     </div>

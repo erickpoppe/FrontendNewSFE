@@ -90,7 +90,7 @@ export default function CartPage() {
                 </li>
                 <li>
                   <button
-                    onClick={() => router.push('/shipping')}
+                    onClick={() => router.push('/placeorder')}
                     className="primary-button w-full"
                   >
                     Proceder a facturar
