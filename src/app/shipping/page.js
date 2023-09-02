@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 
 export default function ShippingAddressPage() {
   const {
@@ -26,12 +27,31 @@ export default function ShippingAddressPage() {
     setValue('country', shippingAddress.country)
   }, [setValue, shippingAddress])
 
-  const submitHandler = ({ fullName, address, city, postalCode, country }) => {
-    dispatch(
-      saveShippingAddress({ fullName, address, city, postalCode, country })
-    )
+  const submitHandler = async ({ fullName, address, city, postalCode, country }) => {
+    try {
+      const url = 'http://127.0.0.1:8000/clients/';
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
 
-    router.push('/payment')
+      const clientData = {
+        nombre_razon_social: "Erick",
+        codigo_tipo_documento_identidad: 1, // Replace with actual code
+        numero_documento: 33888993 // Replace with actual document number
+      };
+
+      // Send the form data to the backend using axios
+      const response = await axios.post(url, clientData, { headers });
+      console.log('Client created with ID:', response.data.id);
+
+      dispatch(
+          saveShippingAddress({ fullName, address, city, postalCode, country })
+      )
+      router.push('/payment');
+    } catch (error) {
+      console.error('Error creating client:', error);
+    }
   }
   return (
     <div>

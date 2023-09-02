@@ -30,7 +30,6 @@ export default function App({ children }) {
         <Header />
         <main className="p-4">{children}</main>
       </div>
-      <CartSidebar />
     </div>
   )
 }
