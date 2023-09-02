@@ -117,18 +117,14 @@ export default function ShippingAddressPage() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="country">Código de tipo de Documento</label>
-          <input
-              className="w-full"
-              typer="number"
-              id="country"
-              {...register('country', {
-                required: 'Escriba el código de tipo de documento',
-              })}
-          />
-          {errors.country && (
-              <div className="text-red-500 ">{errors.country.message}</div>
-          )}
+          <label htmlFor="country">Código de tipo de Documento  </label>
+          <select id="country" className="form-select" {...register('country')}>
+            <option value="1">Cédula de identidad</option>
+            <option value="2">Cédula de identidad de extranjero</option>
+            <option value="3">Pasaporte</option>
+            <option value="4">Otro documento de identidad</option>
+            <option value="5">Número de identificación tributaria</option>
+          </select>
         </div>
         <div className="mb-4 flex justify-between">
           <button className="primary-button">Registrar</button>
