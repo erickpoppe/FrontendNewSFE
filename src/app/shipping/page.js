@@ -42,7 +42,7 @@ export default function ShippingAddressPage() {
       };
 
       // Send the form data to the backend using axios
-      const response = await axios.post(url, clientData, { headers });
+      const response = await axios.post(url, { nombre_razon_social: fullName, correo_electronico: address, complemento: city, numero_documento: postalCode, codigo_tipo_documento_identidad: country }, { headers });
       console.log('Client created with ID:', response.data.id);
 
       dispatch(
@@ -117,12 +117,13 @@ export default function ShippingAddressPage() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="country">Tipo de Documento</label>
+          <label htmlFor="country">Código de tipo de Documento</label>
           <input
               className="w-full"
+              typer="number"
               id="country"
               {...register('country', {
-                required: 'Escriba el tipo de documento',
+                required: 'Escriba el código de tipo de documento',
               })}
           />
           {errors.country && (
