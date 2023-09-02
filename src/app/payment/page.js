@@ -3,66 +3,71 @@
 import CheckoutWizard from '@/components/CheckoutWizard'
 import { savePaymentMethod } from '@/redux/slices/cartSlice'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function ShippingAddressPage() {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    setValue,
-  } = useForm()
-  const router = useRouter()
-  const dispatch = useDispatch()
-  const { shippingAddress, paymentMethod } = useSelector((state) => state.cart)
+    const router = useRouter()
+    const dispatch = useDispatch()
+    const { shippingAddress } = useSelector((state) => state.cart)
 
-  useEffect(() => {
-    if (!shippingAddress.address) {
-      return router.push('/shipping')
-    }
-    setValue('paymentMethod', paymentMethod)
-  }, [paymentMethod, router, setValue, shippingAddress])
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('2'); // Initialize with "2" for Tarjeta
+    const [creditCardNumber, setCreditCardNumber] = useState(''); // Initialize with an empty string for the card number
 
-  const submitHandler = ({ paymentMethod }) => {
-    dispatch(savePaymentMethod(paymentMethod))
+    useEffect(() => {
+        if (!shippingAddress.address) {
+            return router.push('/shipping')
+        }
+    }, [router, shippingAddress])
 
-    router.push('/')
-  }
-  return (
-    <div>
-      <CheckoutWizard activeStep={2} />
-      <form
-        className="mx-auto max-w-screen-md"
-        onSubmit={handleSubmit(submitHandler)}
-      >
-        <h1 className="mb-4 text-xl">Método de pago</h1>
-        {['Transferencia Bancaria', 'Tarjeta', 'Efectivo'].map((payment) => (
-          <div key={payment} className="mb-4">
-            <input
-              name="paymentMethod"
-              className="p-2 outline-none focus:ring-0"
-              id={payment}
-              type="radio"
-              value={payment}
-              {...register('paymentMethod', {
-                required: 'Por favor seleccione un método de pago',
-              })}
-            />
+    const handlePaymentMethodChange = (event) => {
+        const newValue = event.target.value;
+        setSelectedPaymentMethod(newValue);
+    };
 
-            <label className="p-2" htmlFor={payment}>
-              {payment}
-            </label>
-          </div>
-        ))}
-        {errors.paymentMethod && (
-          <div className="text-red-500 ">{errors.paymentMethod.message}</div>
-        )}
-        <div className="mb-4 flex justify-between">
-          <button className="primary-button">Registrar</button>
+    const handleCreditCardChange = (event) => {
+        const newValue = event.target.value;
+        // Obfuscate the central eight digits with zeroes
+        const obfuscatedCardNumber = newValue.replace(/^(\d{4})\d{8}(\d{4})$/, '$100000000$2');
+        setCreditCardNumber(obfuscatedCardNumber);
+    };
+
+    const submitHandler = () => {
+        // Store the selected payment method in Redux
+        dispatch(savePaymentMethod(selectedPaymentMethod));
+        router.push('/');
+    };
+
+    return (
+        <div>
+            <CheckoutWizard activeStep={2} />
+            <div className="mb-3">
+                <label htmlFor="paymentMethod" className="form-label">Tipo de método de pago</label>
+                <select
+                    id="paymentMethod"
+                    className="form-select"
+                    value={selectedPaymentMethod}
+                    onChange={handlePaymentMethodChange}
+                >
+                    <option value="1">Efectivo</option>
+                    <option value="2">Tarjeta</option>
+                    <option value="7">Transferencia bancaria</option>
+                    <option value="10">Tarjeta y Efectivo</option>
+                </select>
+            </div>
+            {selectedPaymentMethod === "2" && (
+                <div className="mb-3">
+                    <label htmlFor="creditCardNumber" className="form-label">Número de tarjeta de crédito </label>
+                    <input
+                        type="text"
+                        id="creditCardNumber"
+                        className="form-control"
+                        value={creditCardNumber}
+                        onChange={handleCreditCardChange}
+                    />
+                </div>
+            )}
+            <button onClick={submitHandler}>Submit</button>
         </div>
-      </form>
-    </div>
-  )
+    );
 }
