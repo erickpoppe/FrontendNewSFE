@@ -37,13 +37,12 @@ export default function ShippingAddressPage() {
 
       const clientData = {
         nombre_razon_social: "Erick",
-        codigo_tipo_documento_identidad: 1, // Replace with actual code
-        numero_documento: 33888993 // Replace with actual document number
+        codigo_tipo_documento_identidad: 1,
+        numero_documento: 33888993
       };
 
-      // Send the form data to the backend using axios
-      const response = await axios.post(url, { nombre_razon_social: fullName, correo_electronico: address, complemento: city, numero_documento: postalCode, codigo_tipo_documento_identidad: country }, { headers });
-      console.log('Client created with ID:', response.data.id);
+
+       console.log('Client created with ID:', response.data.id);
 
       dispatch(
           saveShippingAddress({ fullName, address, city, postalCode, country })
