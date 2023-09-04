@@ -28,7 +28,7 @@ export default function PlaceOrderScreen() {
     const descripcion = "Examen General";
     const unidadMedida = 58;
     const precioUnitario = 65.0; // Set the fixed value of 65.0
-    const montoDescuento = 20.0;
+    const montoDescuento = 0.0;
     const especialidad = "Traumatologia";
     const especialidadDetalle = "string";
     const nroQuirofanoSalaOperaciones = 1;
