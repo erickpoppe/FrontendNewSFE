@@ -59,6 +59,32 @@ export default function PlaceOrderScreen() {
         usuario: "string",
     };
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [discounts, setDiscounts] = useState({});
+
+
+    const handleItemDiscountChange = (itemId, discountValue) => {
+        setDiscounts((prevDiscounts) => ({
+            ...prevDiscounts,
+            [itemId]: parseFloat(discountValue),
+        }));
+    };
+
+    const calculateUpdatedSubtotal = () => {
+        let updatedSubtotal = 0;
+        cartItems.forEach((item) => {
+            const discount = discounts[item.id] || 0;
+            updatedSubtotal += item.qty * item.price - discount;
+        });
+        return updatedSubtotal.toFixed(2);
+    };
+
+    const [additionalDiscount, setAdditionalDiscount] = useState(0);
+
+// Function to update the additional discount
+    const handleAdditionalDiscountChange = (value) => {
+        setAdditionalDiscount(parseFloat(value));
+    };
+
     const router = useRouter()
 
     useEffect(() => {
@@ -133,13 +159,13 @@ export default function PlaceOrderScreen() {
                 <div>Loading</div>
             ) : cartItems.length === 0 ? (
                 <div>
-                    Cart is empty. <Link href="/">Go shopping</Link>
+                    Cart is empty. <Link href="/">Hacer venta</Link>
                 </div>
             ) : (
                 <div className="grid md:grid-cols-4 md:gap-5">
                     <div className="overflow-x-auto md:col-span-3">
                         <div className="card  p-5">
-                            <h2 className="mb-2 text-lg">Shipping Address</h2>
+                            <h2 className="mb-2 text-lg">Datos del cliente</h2>
                             <div>
                                 {shippingAddress.fullName}, {shippingAddress.address},{' '}
                                 {shippingAddress.city}, {shippingAddress.postalCode},{' '}
@@ -147,27 +173,28 @@ export default function PlaceOrderScreen() {
                             </div>
                             <div>
                                 <Link className="default-button inline-block" href="/shipping">
-                                    Edit
+                                    Editar
                                 </Link>
                             </div>
                         </div>
                         <div className="card  p-5">
-                            <h2 className="mb-2 text-lg">Payment Method</h2>
+                            <h2 className="mb-2 text-lg">Método de Pago</h2>
                             <div>{paymentMethod}</div>
                             <div>
                                 <Link className="default-button inline-block" href="/payment">
-                                    Edit
+                                    Editar
                                 </Link>
                             </div>
                         </div>
                         <div className="card overflow-x-auto p-5">
-                            <h2 className="mb-2 text-lg">Order Items</h2>
+                            <h2 className="mb-2 text-lg">Artículos de venta</h2>
                             <table className="min-w-full">
                                 <thead className="border-b">
                                 <tr>
-                                    <th className="px-5 text-left">Item</th>
-                                    <th className="    p-5 text-right">Quantity</th>
-                                    <th className="  p-5 text-right">Price</th>
+                                    <th className="px-5 text-left">Artículo</th>
+                                    <th className="    p-5 text-right">Cantidad</th>
+                                    <th className="  p-5 text-right">Precio</th>
+                                    <th className= "  p-5 text-right">Descuento</th>
                                     <th className="p-5 text-right">Subtotal</th>
                                 </tr>
                                 </thead>
@@ -185,7 +212,16 @@ export default function PlaceOrderScreen() {
                                         <td className=" p-5 text-right">{item.qty}</td>
                                         <td className="p-5 text-right">${item.price}</td>
                                         <td className="p-5 text-right">
-                                            ${item.qty * item.price}
+                                            <input
+                                                type="number"
+                                                value={discounts[item.id] || ''}
+                                                onChange={(e) => handleItemDiscountChange(item.id, e.target.value)}
+                                                placeholder="Discount"
+                                                className="w-16 border rounded p-1 text-right"
+                                            />
+                                        </td>
+                                        <td className="p-5 text-right">
+                                            ${(item.qty * item.price - (discounts[item.id] || 0)).toFixed(2)}
                                         </td>
                                     </tr>
                                 ))}
@@ -193,37 +229,45 @@ export default function PlaceOrderScreen() {
                             </table>
                             <div>
                                 <Link className="default-button inline-block" href="/cart">
-                                    Edit
+                                    Editar
                                 </Link>
                             </div>
                         </div>
                     </div>
                     <div>
                         <div className="card  p-5">
-                            <h2 className="mb-2 text-lg">Order Summary</h2>
+                            <h2 className="mb-2 text-lg">Resumen de Facturación</h2>
                             <ul>
                                 <li>
                                     <div className="mb-2 flex justify-between">
-                                        <div>Items</div>
-                                        <div>${itemsPrice}</div>
+                                        <div>SubTotal</div>
+                                        <div>${calculateUpdatedSubtotal()}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="mb-2 flex justify-between">
-                                        <div>Tax</div>
-                                        <div>${itemsPrice}</div>
+                                        <div>Descuento Adicional</div>
+                                        <div>
+                                            <input
+                                                type="number"
+                                                value={additionalDiscount}
+                                                onChange={(e) => handleAdditionalDiscountChange(e.target.value)}
+                                                placeholder="Descuento Adicional"
+                                                className="w-16 border rounded p-1 text-right"
+                                            />
+                                        </div>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="mb-2 flex justify-between">
-                                        <div>Shipping</div>
-                                        <div>${itemsPrice}</div>
+                                        <div>SubTotal con Descuento</div>
+                                        <div>${(calculateUpdatedSubtotal() - additionalDiscount).toFixed(2)}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="mb-2 flex justify-between">
-                                        <div>Total</div>
-                                        <div>${itemsPrice}</div>
+                                        <div>Monto Total</div>
+                                        <div>${(calculateUpdatedSubtotal() - additionalDiscount).toFixed(2)}</div>
                                     </div>
                                 </li>
                                 <li>

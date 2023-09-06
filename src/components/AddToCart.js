@@ -37,7 +37,7 @@ export default function AddToCart({
     <>
       {product.countInStock > 0 && showQty && (
         <div className="mb-2 flex justify-between">
-          <div>Qty</div>
+          <div>Cantidad</div>
           <div>
             <select
               value={qty}

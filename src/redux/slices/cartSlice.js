@@ -8,6 +8,7 @@ const initialState = Cookies.get('cart')
       cartItems: [],
       shippingAddress: {},
       paymentMethod: '',
+
     }
 
 const addDecimals = (num) => {
