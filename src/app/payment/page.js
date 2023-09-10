@@ -11,8 +11,8 @@ export default function ShippingAddressPage() {
     const dispatch = useDispatch()
     const { shippingAddress } = useSelector((state) => state.cart)
 
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('2'); // Initialize with "2" for Tarjeta
-    const [creditCardNumber, setCreditCardNumber] = useState(''); // Initialize with an empty string for the card number
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('1');
+    const [creditCardNumber, setCreditCardNumber] = useState('');
 
     useEffect(() => {
         if (!shippingAddress.address) {

@@ -1,7 +1,7 @@
 export default function CheckoutWizard({ activeStep = 0 }) {
   return (
     <div className="mb-5 flex flex-wrap">
-      {['Login de usuario', 'Datos', 'Método de pago', 'Facturar'].map(
+      {['Login de usuario', 'Facturar'].map(
         (step, index) => (
           <div
             key={step}

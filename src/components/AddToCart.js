@@ -55,7 +55,7 @@ export default function AddToCart({
       <div>
         {product.countInStock > 0 ? (
           <button className="primary-button w-full" onClick={addToCartHandler}>
-            Añadir a la venta
+            Añadir
           </button>
         ) : (
           <button disabled>Sin stock</button>
